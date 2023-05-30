@@ -35,12 +35,12 @@ router.post('/', async (req, res)=>{
 
 })
 
-router.get('/:id', async(req, res)=>{
+router.get('/:id', getStudent,(req, res)=>{
     // res.send(`Displaying students info with id ${req.params.id}`);
 
     try{   
-        const students = await studentsModel.find({name : req.params.id});
-        res.status(200).json(students);
+        // const students = await studentsModel.find({_id : req.params.id});
+        res.status(200).json(res.student);
     }
     catch(err)
     {
@@ -58,7 +58,7 @@ router.delete('/:id', async(req, res)=>{
     // res.send(`Deleting students info with id ${req.params.id}`);
 
     try{   
-        const students = await studentsModel.deleteOnegit ({name : req.params.id});
+        const students = await studentsModel.deleteOne({name : req.params.id});
         res.status(200).json(students);
     }
     catch(err)
@@ -67,5 +67,24 @@ router.delete('/:id', async(req, res)=>{
         res.status(500).json({message : err.message});
     }
 })
+
+async function getStudent(req, res, next) {
+    let student;
+    try
+    {
+        student = await studentsModel.findById(req.params.id);
+        if(student == null)
+        {
+            return res.status(404).json({Message : `User Not Found with id ${req.params.id}`})
+        }
+    }
+    catch(err)
+    {
+        console.log(err);
+        return res.status(500).json({message : err.message});
+    }
+    res.student = student;
+    next();
+} 
 
 module.exports = router;
