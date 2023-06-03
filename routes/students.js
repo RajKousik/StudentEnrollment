@@ -2,6 +2,14 @@ const express = require("express");
 const router = express.Router();
 const studentsModel = require('../models/students')
 
+
+/*
+
+router.route('/').get().post()
+
+*/
+
+
 router.get('/', async(req, res) =>
 {
     try{   
