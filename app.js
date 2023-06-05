@@ -3,10 +3,19 @@ const express = require('express')
 const app = express()
 const PORT = 3500
 const mongoose = require('mongoose')
+const cors = require("cors")
+
+app.use(cors());
+app.use(express.json());
 
 const students = require('./routes/students')
 
+const multer = require('multer')
 
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Credentials", true);
+    next();
+});
 app.use(express.json());
 
 mongoose.connect(process.env.DB_URL);

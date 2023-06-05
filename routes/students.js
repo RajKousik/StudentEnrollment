@@ -1,19 +1,19 @@
 const express = require("express");
 const router = express.Router();
-const studentsModel = require('../models/students')
+// const studentsModel = require('../models/students')  
+
+const imageUpload = require('../middlewares/imageUpload');
 
 const {getAllStudentDetails, createStudent, getStudent, getStudentDetail, updateStudent, deleteStudent} = require('../controllers/student.js')
 
 
 
 router.route('/').get(getAllStudentDetails)
-router.route('/').post(createStudent)
+router.route('/').post(imageUpload.single('profilePic'), createStudent)
 
-router.route('/:id').get(getStudent, getStudentDetail); //first callinfg middleWare and then the function
+router.route('/:id').get(getStudent, getStudentDetail); //first calling middleWare and then the function
 router.route('/:id').patch(getStudent, updateStudent);
 router.route('/:id').delete(getStudent, deleteStudent);
-
-
 
 
 // router.get('/', async(req, res) =>

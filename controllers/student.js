@@ -18,8 +18,19 @@ const createStudent = async (req, res)=>{
     const newStudent = new studentsModel({
         name : req.body.name,
         enrolledDepartment : req.body.enrolledDepartment,
-        enrollmentDate : req.body.enrollmentDate 
+        enrollmentDate : req.body.enrollmentDate,
+        // profilePic : req.file.path
     })
+
+    if(req.file)
+    {
+        newStudent.profilePic = req.file.path
+        console.log(newStudent);
+    }
+    else
+    {
+        console.log(req.file);   
+    }
 
     try{
         const student = await newStudent.save();
